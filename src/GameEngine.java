@@ -10,7 +10,41 @@
  * game itself. Its main function is to determine who the winner of the game is.
  */
 public class GameEngine {
+	
+	private GameBackground background;
+	
+	public static void main(String[] args) {
+		GameEngine game = new GameEngine();
+		game.background.initialize();
+		game.background.panel.onClick((x, y) -> game.whenClick(x, y));
+	}
+	
+	public GameEngine() {
+		background = new GameBackground();
+		
+	}
+	
+	private void whenClick(int x, int y) {
+		
+		// Converting the x-y coordinates of the user click
+		// into a position on the cellArray.
+		int col = x / 200;
+		int row = y / 200;
 
+		// If the spot isn't taken, store the user's move
+		// into the array.
+		if (!spotTaken(row, col, background.getCellArray())) {
+
+			background.drawSymbol(col, row);
+
+			// show the message dialog depending on the winner.
+			background.showMessage(decideWinner(background.getCellArray()));
+		}
+	}
+	
+	
+	
+	
 	/**
 	 * This method checks whether a spot in the tic tac toe grid is taken/ filled or
 	 * not.

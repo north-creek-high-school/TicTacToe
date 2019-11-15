@@ -25,8 +25,7 @@ import javax.swing.JOptionPane;
 
 public class GameBackground {
 	private Graphics2D g;
-	private DrawingPanel panel;
-	private GameEngine game;
+	public DrawingPanel panel;
 	private int[][] cellArray = new int[3][3];
 	private String type = "o";
 
@@ -37,12 +36,13 @@ public class GameBackground {
 	 * @param args
 	 * 
 	 */
+	/*
 	public static void main(String[] args) {
 
 		GameBackground gameBackground = new GameBackground();
 		gameBackground.initialize();
 	}
-
+	*/
 	/**
 	 * This is the constructor for the Game Background which creates and sets the
 	 * preferences for the drawing panel object.
@@ -60,8 +60,6 @@ public class GameBackground {
 	 */
 	public void initialize() {
 		drawGrid();
-		game = new GameEngine();
-		panel.onClick((x, y) -> whenClick(x, y));
 	}
 
 	/**
@@ -86,6 +84,8 @@ public class GameBackground {
 	 * @param x is the x-coordinate of where the user clicks on the panel.
 	 * @param y is the y-coordinate of where the user clicks on the panel.
 	 */
+	
+	/*
 	private void whenClick(int x, int y) {
 		// Converting the x-y coordinates of the user click
 		// into a position on the cellArray.
@@ -114,20 +114,40 @@ public class GameBackground {
 			showMessage(game.decideWinner(cellArray));
 		}
 	}
-
+	*/
+	
 	/**
 	 * This method is responsible for drawing an individual symbol onto the grid.
 	 * 
 	 * @param col is the column position of the symbol in the 2D array.
 	 * @param row is the row position of the symbol in the 2D array.
 	 */
-	private void drawSymbol(int col, int row) {
+	public void drawSymbol(int col, int row) {
+		if (!type.equals("x")) {
+			type = "x";
+			// 1 in the array represents an X.
+			cellArray[row][col] = 1;
+		} else {
+			type = "o";
+			// 2 in the array represents an O.
+			cellArray[row][col] = 2;
+		}
+
+		// Draw the symbol onto the grid. (adding 1 to the row and col because
+		// of one-based indexing.
+		col++;
+		row++;
+		
 		g.setFont(new Font("Arial", Font.PLAIN, 150));
 		// Manipulate the position of symbol to center it in its box.
 		g.drawString(type, col * 200 - 135, row * 200 - 60);
 
 	}
-
+	
+	public int[][] getCellArray(){
+		return this.cellArray;
+	}
+	
 	/**
 	 * This method is in charge of handling the end-of-game message dialogs.
 	 * 
@@ -135,7 +155,7 @@ public class GameBackground {
 	 *               1 = player one wins, 2 = player 2 wins, 0 = tie, and 3 = no end
 	 *               as of yet.
 	 */
-	private void showMessage(int winner) {
+	public void showMessage(int winner) {
 		// Array of button options for pop-up message.
 		Object[] options = { "Yes, please", "No, thanks" };
 		String message = "";
